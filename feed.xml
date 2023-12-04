@@ -1,32 +1,27 @@
----
-layout: null
-sitemap:
- exclude: 'yes'
----
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
- {% for post in site.posts %}
-   {% unless post.published == false %}
-   <url>
-     <loc>{{ site.url }}{{ post.url }}</loc>
-     {% if post.sitemap.lastmod %}
-       <lastmod>{{ post.sitemap.lastmod | date: "%Y-%m-%d" }}</lastmod>
-     {% elsif post.date %}
-       <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-     {% else %}
-       <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-     {% endif %}
-     {% if post.sitemap.changefreq %}
-       <changefreq>{{ post.sitemap.changefreq }}</changefreq>
-     {% else %}
-       <changefreq>monthly</changefreq>
-     {% endif %}
-     {% if post.sitemap.priority %}
-       <priority>{{ post.sitemap.priority }}</priority>
-     {% else %}
-       <priority>0.5</priority>
-     {% endif %}
-   </url>
-   {% endunless %}
- {% endfor %}
-</urlset> 
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title | xml_escape }}</title>
+    <description>{{ site.description | xml_escape }}</description>
+    <link>{{ site.url | absolute_url }}</link>
+    <atom:link href="{{ "/rss.xml" | absolute_url }}" rel="self" type="application/rss+xml" />
+    <language>ko-KR</language>
+    <copyright>Copyright 인하대학교 인트아이, All rights reserved.</copyright>
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <generator>Jekyll</generator>
+    {% for post in site.posts limit:30 %}
+    <item>
+      <title>{{ post.title | xml_escape }}</title>
+      <link>{{ post.url | absolute_url }}</link>
+      <description>{{ post.content | strip_html | truncatewords: 200 | xml_escape }}</description>
+      <author>{{ post.author_email | xml_escape }} ({{ post.author_name | xml_escape }})</author>
+      {% for category in post.categories %}
+      <category>{{ category | xml_escape }}</category>
+      {% endfor %}
+      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+      <guid>{{ post.url | absolute_url }}</guid>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>
