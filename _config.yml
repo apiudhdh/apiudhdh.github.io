@@ -1,7 +1,7 @@
 # Site settings
 title: apiudhdh
 description: 'apiudhdh personal blog'
-url: 'https://apiudhdh.github.io.git/'
+url: 'https://apiudhdh.github.io'
 baseurl: ''
 # google_analytics: 'UA-XXXXXX-X'
 # disqus_shortname: 'your-disqus-name'
